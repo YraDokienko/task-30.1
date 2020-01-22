@@ -1,0 +1,16 @@
+{% extends "index.html"  %}
+{% block title %} Pizza add {% endblock %}
+{% block h1 %} Добавьте новую пиццу {% endblock %}
+{% block application %}
+
+    <form method="post"> {% csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="Сохранить">
+    </form>
+    <p>
+        <form action="/">
+            <button> ОТМЕНА </button>
+        </form>
+    </p>
+
+{% endblock %}

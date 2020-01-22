@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" type="text/css">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title> {% block title %} Pizzas {% endblock %}</title>
+        <style>
+            body { background: #1C1C1C; color: #6c757d;}
+        </style>
+    </head>
+<body>
+
+<div class="container">
+    {% include "header.html" %}
+        <h2> {% block h2 %} {% endblock %} </h2>
+        <p>{% now "jS F Y H:i" %}</p>
+
+            {% block application %}
+
+            {% endblock %}
+    {% include "footer.html"%}
+</div>
+<script type="text/javascript" src="{%static 'js/snow-fall.js' %}"></script>
+</body>
+</html>

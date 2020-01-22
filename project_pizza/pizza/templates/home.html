@@ -1,0 +1,30 @@
+{% extends "index.html"  %}
+{% block application %}
+<div class="row ">
+    {% for pizza in object_list%}
+    <div class="col-lg-4 col-md-6 mb-4 ">
+        <div class="card h-100 border border-secondary img-thumbnail">
+            {% if pizza.image %}
+            <a href="#"><img class="card-img-top " src="{{pizza.image.url}}" alt=""></a>
+            {% endif %}
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="#">{{pizza.name}}</a>
+                </h4>
+                <h4 class="text-danger">{{pizza.price}} грн.</h4>
+                <p class="card-text">{{pizza.description}}</p>
+            </div>
+            <div class="card-footer ">
+                <form action="/add-pizza-to-order/" method="post" class="form-inline">
+                    <div class="form-group mr-sm-2">
+                        <input name="pizza_id" value="{{pizza.id}}" hidden>
+                        <input type="number" name="count">
+                        <input class="btn btn-success" type="submit" value="Добавить">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

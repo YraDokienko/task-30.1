@@ -1,0 +1,16 @@
+{% extends "index.html"  %}
+{% block title %} Price update {% endblock %}
+{% block h1 %} Введите на сколько хотите изменить цену {% endblock %}
+{% block application %}
+<div>
+    <form action="" method="post"> {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Сохранить">
+    </form>
+    <br>
+        <form action="/">
+            <button> ОТМЕНА </button>
+        </form>
+</div>
+{% endblock %}
+

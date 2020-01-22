@@ -1,0 +1,33 @@
+{% extends "index.html"  %}
+{% block title %} Pizzas {% endblock %}
+{% block h2 %} Список пицц {% endblock %}
+{% block application %}
+
+    <p><h3> Количество = {{data}} </h3></p>
+    <p><h5>{{list}}</h5></p>
+    <hr color="#6F9110">
+    <ul>
+        {% for pizza in object_list %}
+        {% if pizza.available %}
+        <li type="1">
+            <p>
+                {{pizza.name|upper}} : цена = {{pizza.price}} грн. (Наличие - {{pizza.available}})
+                <a href="/pizza-update/{{pizza.id}}/edit"> - edit </a>
+            </p>
+        </li>
+        {% endif %}
+        {%endfor%}
+    </ul>
+<form action="/" method="get"> {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Применить">
+</form>
+    <hr color="#6F9110">
+<form action="/pizza-price-update/">
+    <p><input type="submit" value="Изменить цену"></p>
+</form>
+<form action="pizza-form-add/">
+    <button> Добавить пиццу </button>
+</form>
+
+{% endblock %}

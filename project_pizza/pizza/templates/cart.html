@@ -1,0 +1,43 @@
+{% extends "index.html"  %}
+{% block application %}
+
+<h1>cart</h1>
+{% for pizza in order.pizzas.all %}
+<div class=" row p-2 mb-2 bg-white text-dark border border-secondary" >
+    <div class="col-lg-3 col-sm-3 col-xs-12" style="height: 100px; line-height: 100px;">
+        <img  src="{{pizza.pizza_template.image.url}}" style="width: 100px; height: 100px;" />
+    </div>
+    <div  class="col-lg-3 col-sm-3 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+        {{pizza.name}}
+    </div>
+    <div class="col-lg-2 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+        {{pizza.price}}
+    </div>
+    <div class="col-lg-1 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+        {{pizza.count}}
+    </div>
+    <div class="col-lg-3 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+        <form action="/cart/" method="post">
+             <div class="form-group mr-sm-2">
+                 <input name="pizza_id" value="{{pizza.id}}" hidden>
+                  <a href="/del_instance/{{pizza.id}}" class="btn btn-danger btn-sm" role="button"> удалить </a>
+             </div>
+        </form>
+    </div>
+  </div>
+{% endfor %}
+<hr class="mb-4">
+ <div class="col-md-12">
+     <form action="shipping/">
+         <div class="row">
+         <div class="col-md-6">
+             <button class="btn btn-success"> Оформить заказ </button>
+         </div>
+         <div class="col-md-6">
+             <h5 class="text-danger">СУММА = {{ order.full_price }} грн.</h5>
+         </div>
+         </div>
+     </form>
+ </div>
+
+{% endblock%}
