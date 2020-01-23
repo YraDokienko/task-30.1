@@ -3,7 +3,7 @@ from .forms import PizzaForm, PizzaPriceUpdateForm, PizzaSortedForm, \
 from django.views.generic import ListView, FormView, UpdateView, TemplateView
 from django.http import HttpResponseRedirect
 from .models import Pizza, Order, InstancePizza
-from .tasks import add_pizza_to_cart
+from .tasks import add_pizza_to_cart, parser_site_pizza
 
 
 class PizzaHomeView(ListView):
@@ -11,6 +11,7 @@ class PizzaHomeView(ListView):
     template_name = 'home.html'
 
     def get_queryset(self):
+        parser_site_pizza.apply_async(countdown=1 * 60)
         sort = self.request.GET.get('sort_order', 'name')
         return Pizza.objects.all().order_by(sort)
 
