@@ -3,6 +3,7 @@ from .forms import PizzaForm, PizzaPriceUpdateForm, PizzaSortedForm, \
 from django.views.generic import ListView, FormView, UpdateView, TemplateView
 from django.http import HttpResponseRedirect
 from .models import Pizza, Order, InstancePizza
+from .tasks import add_pizza_to_cart
 
 
 class PizzaHomeView(ListView):
@@ -57,33 +58,9 @@ class AddPizzaToOrderView(FormView):
     success_url = '/'
 
     def form_valid(self, form):
-        order = Order.objects.first()
-        if not order:
-            order = Order.objects.create()
-
         pizza_id = form.cleaned_data.get('pizza_id')
-        instance_pizza = InstancePizza.objects.filter(pizza_template=pizza_id)
-
-        if instance_pizza:
-            instance_pizza = InstancePizza.objects.get(pizza_template=pizza_id)
-            count = form.cleaned_data.get('count')
-            instance_pizza.count += count
-            instance_pizza.save()
-
-        else:
-            count = form.cleaned_data.get('count')
-            pizza_id = form.cleaned_data.get('pizza_id')
-            pizza = Pizza.objects.get(id=pizza_id)
-            instance_pizza = InstancePizza.objects.create(
-                name=pizza.name,
-                size=pizza.size,
-                price=pizza.price,
-                count=count,
-                pizza_template=pizza
-            )
-
-            order.pizzas.add(instance_pizza)
-        order.save_full_price()
+        count = form.cleaned_data.get('count')
+        add_pizza_to_cart.delay(pizza_id, count)
         return super().form_valid(form)
 
     def del_instance(self, id):
